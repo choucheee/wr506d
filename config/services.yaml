@@ -18,3 +18,8 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    # Enregistrement de l'EventSubscriber Doctrine pour les événements de cycle de vie
+    App\EventSubscriber\MovieDoctrineEventSubscriber:
+        tags:
+            - { name: doctrine.event_subscriber }
