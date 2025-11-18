@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produit {{ id }}{% endblock %}
+
+{% block body %}
+    <h1>Affichage du produit {{ id }}</h1>
+    
+    {% if title is defined %}
+        <h2>Titre du produit : {{ title }}</h2>
+        <p>Slug du produit : <strong>{{ slug }}</strong></p>
+    {% endif %}
+{% endblock %}
+
