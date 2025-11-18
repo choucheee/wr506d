@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Logs des Films{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1>📋 Logs des actions sur les Films</h1>
+        
+        {% if logs|length > 0 %}
+            <table class="table table-striped mt-4">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Action</th>
+                        <th>Type d'entité</th>
+                        <th>ID Entité</th>
+                        <th>Détails</th>
+                        <th>Date de création</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in logs %}
+                        <tr>
+                            <td>{{ log.id }}</td>
+                            <td><span class="badge bg-primary">{{ log.action }}</span></td>
+                            <td>{{ log.entityType }}</td>
+                            <td>{{ log.entityId }}</td>
+                            <td>{{ log.details }}</td>
+                            <td>{{ log.createdAt|date('d/m/Y H:i:s') }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="alert alert-info mt-4">
+                <p>Aucun log trouvé. Créez un film pour générer des logs.</p>
+            </div>
+        {% endif %}
+
+        <div class="mt-4">
+            <a href="{{ path('test_movie_create') }}" class="btn btn-primary">Créer un film</a>
+        </div>
+    </div>
+{% endblock %}
+

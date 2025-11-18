@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Test - Création d'un Film{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1>Test de création d'un Film</h1>
+        
+        <div class="alert alert-success mt-4">
+            <h3>✅ Film créé avec succès !</h3>
+            <p><strong>ID :</strong> {{ movie.id }}</p>
+            <p><strong>Titre :</strong> {{ movie.title }}</p>
+            <p><strong>Réalisateur :</strong> {{ movie.director }}</p>
+            <p><strong>Année :</strong> {{ movie.year }}</p>
+            <p><strong>Date de création :</strong> {{ movie.createdAt|date('d/m/Y H:i:s') }}</p>
+        </div>
+
+        {% if logAction %}
+            <div class="alert alert-info mt-4">
+                <h3>📝 LogAction créé automatiquement</h3>
+                <p><strong>ID :</strong> {{ logAction.id }}</p>
+                <p><strong>Action :</strong> {{ logAction.action }}</p>
+                <p><strong>Type d'entité :</strong> {{ logAction.entityType }}</p>
+                <p><strong>ID de l'entité :</strong> {{ logAction.entityId }}</p>
+                <p><strong>Détails :</strong> {{ logAction.details }}</p>
+                <p><strong>Date de création :</strong> {{ logAction.createdAt|date('d/m/Y H:i:s') }}</p>
+            </div>
+        {% else %}
+            <div class="alert alert-warning mt-4">
+                <p>⚠️ Aucun LogAction trouvé pour ce film.</p>
+            </div>
+        {% endif %}
+
+        <div class="alert alert-info mt-4">
+            <h4>🔍 Informations de débogage</h4>
+            <ul>
+                <li><strong>ID du film créé :</strong> {{ debug.movieId }}</li>
+                <li><strong>Total de logs dans la base :</strong> {{ debug.totalLogs }}</li>
+                <li><strong>Logs pour les films :</strong> {{ debug.movieLogsCount }}</li>
+            </ul>
+        </div>
+
+        <div class="mt-4">
+            <h3>📋 Derniers logs (10 derniers)</h3>
+            {% if allLogs|length > 0 %}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Action</th>
+                            <th>Type</th>
+                            <th>ID Entité</th>
+                            <th>Détails</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for log in allLogs %}
+                            <tr>
+                                <td>{{ log.id }}</td>
+                                <td>{{ log.action }}</td>
+                                <td>{{ log.entityType }}</td>
+                                <td>{{ log.entityId }}</td>
+                                <td>{{ log.details }}</td>
+                                <td>{{ log.createdAt|date('d/m/Y H:i:s') }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="alert alert-warning">
+                    <p>⚠️ Aucun log trouvé. Cela peut signifier que :</p>
+                    <ul>
+                        <li>L'EventSubscriber Doctrine n'est pas enregistré correctement</li>
+                        <li>L'événement n'est pas déclenché</li>
+                        <li>L'EventSubscriber Symfony ne crée pas le LogAction</li>
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mt-4">
+            <a href="{{ path('test_movie_create') }}" class="btn btn-primary">Créer un autre film</a>
+            <a href="{{ path('test_movie_list_logs') }}" class="btn btn-secondary">Voir tous les logs</a>
+        </div>
+    </div>
+{% endblock %}
+
